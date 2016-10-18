@@ -1,0 +1,8 @@
+/src/.obj/*
+!/src/.obj/.gitkeep
+/src/.dep/*
+!/src/.dep/.gitkeep
+/lib/*
+!/lib/.gitkeep
+/build/*
+!/build/.gitkeep
