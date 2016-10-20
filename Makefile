@@ -147,13 +147,10 @@ include $(DEPS)
 
 .gitignore:
 	@echo "$(OBJ_DIR:./%=/%)/*" >> .gitignore
-	@echo "!$(OBJ_DIR:./%=/%)/.gitkeep" >> .gitignore
 	@echo "$(DEP_DIR:./%=/%)/*" >> .gitignore
-	@echo "!$(DEP_DIR:./%=/%)/.gitkeep" >> .gitignore
 	@echo "$(LIB_DIR:./%=/%)/*" >> .gitignore
-	@echo "!$(LIB_DIR:./%=/%)/.gitkeep" >> .gitignore
 	@echo "$(BLD_DIR:./%=/%)/*" >> .gitignore
-	@echo "!$(BLD_DIR:./%=/%)/.gitkeep" >> .gitignore
+	@echo "!**/.gitkeep" >> .gitignore
 
 tree: .gitignore
 	@printf "Creating project tree...\n"
