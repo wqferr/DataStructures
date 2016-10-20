@@ -213,6 +213,10 @@ void *listiter_remove(ListIterator *iter) {
     return NULL;
 }
 
+bool listiter_equals(const ListIterator *i1, const ListIterator *i2) {
+    return i1->current == i2->current;
+}
+
 void listiter_destroy(ListIterator *iter) {
     free(iter);
 }
