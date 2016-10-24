@@ -33,7 +33,9 @@ bool listiter_hasNext(const ListIterator *);
 void *listiter_prev(ListIterator *);
 void *listiter_curr(const ListIterator *);
 void *listiter_next(ListIterator *);
+void listiter_add(ListIterator *, void *);
 void *listiter_remove(ListIterator *);
+bool listiter_equals(const ListIterator *, const ListIterator *);
 void listiter_destroy(ListIterator *);
 
 #endif /* ifndef _LIST_H_ */

@@ -32,7 +32,6 @@ BLD_DIR := ./build
 
 # File where the output of the last execution is saved
 STDOUT_LOG := out.log
-STDERR_LOG := err.log
 
 # Diff command
 diff = vimdiff -MR $(1) $(2) 2> /dev/null
@@ -46,7 +45,8 @@ test_ofile = $(1:%=%.out)
 # DON'T MESS WITH ANYTHING DOWN HERE
 
 
-.PHONY: all run test clean stuff rebuild again tree destroy-tree-yes-i-am-sure
+.PHONY: all run test clean stuff rebuild again tree destroy-tree-yes-i-am-sure\
+		valgrind gdb g
 
 # Find all source files
 SOURCES := $(shell find $(SRC_DIR) -name $(SRC_PTRN) 2> /dev/null)
@@ -65,6 +65,20 @@ DEPS := $(addprefix $(DEP_DIR)/,$(notdir $(DEPS)))
 SRC_SUBDIR := $(shell find $(SRC_DIR) -type d 2> /dev/null)
 VPATH += $(SRC_SUBDIR)
 
+
+debug_mode = 
+ifneq (,$(findstring g,$(MAKECMDGOALS)))
+debug_mode = yep
+endif
+ifneq (,$(findstring valgrind,$(MAKECMDGOALS)))
+debug_mode = yep
+endif
+ifneq (,$(findstring gdb,$(MAKECMDGOALS)))
+debug_mode = yep
+endif
+ifdef debug_mode
+C_FLAGS += -g
+endif
 
 # You can define a file to be read as stdin by setting the command line
 # variable `case`. The input and output files used are the ones returned by
@@ -89,29 +103,36 @@ endif
 
 all: $(BLD_DIR)/$(OUT)
 
+g: clean all
+
 run:
 ifdef case
-	@$(BLD_DIR)/$(OUT) < $(I_FILE) > $(STDOUT_LOG) 2> $(STDERR_LOG)
-
-# Display STDOUT after all has been processed
-	@cat $(STDOUT_LOG)
-	@printf "\n\n"
+	@$(BLD_DIR)/$(OUT) < $(I_FILE)
 else
-	@$(BLD_DIR)/$(OUT) > $(STDOUT_LOG) 2> $(STDERR_LOG)
-	@cat $(STDOUT_LOG)
-	@printf "====================\n"
-	@if [ ( stat --printf="%s" $(STDERR_LOG) ) -gt 0 ]
-	@printf "stderr was written to, you might want to check %s\n" $(STDERR_LOG)
-	@end
+	$(BLD_DIR)/$(OUT)
 endif
+	@printf "====================\n"
+
+valgrind:
+ifdef case
+	@valgrind $(BLD_DIR)/$(OUT) < $(I_FILE)
+else
+	@valgrind $(BLD_DIR)/$(OUT)
+endif
+	@printf "====================\n"
+
+gdb:
+	@gdb (BLD_DIR)/$(OUT)
+	@printf "====================\n"
 
 test:
 ifdef case
-	@$(BLD_DIR)/$(OUT) < $(I_FILE) > $(STDOUT_LOG) 2> $(STDERR_LOG)
+	@$(BLD_DIR)/$(OUT) < $(I_FILE) | tee $(STDOUT_LOG)
 	@$(call diff,$(O_FILE),$(STDOUT_LOG))
 else
 	@$(error No test case given)
 endif
+	@printf "====================\n"
 
 
 clean:
@@ -133,7 +154,6 @@ $(BLD_DIR)/$(OUT): $(OBJECTS)
 	@printf "====================\n"
 	@printf " COMPILING COMPLETE \n"
 	@printf "====================\n\n"
-
 
 $(OBJ_DIR)/%.o: %.c
 	@printf "Building -%s-... " $(notdir $(basename $<))

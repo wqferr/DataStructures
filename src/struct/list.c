@@ -195,6 +195,13 @@ void *listiter_next(ListIterator *iter) {
     return iter->current->value;
 }
 
+void listiter_add(ListIterator *iter, void *val) {
+    ListNode *curr = iter->current;
+    listnode_new(curr, val);
+    iter->parent->length++;
+    listiter_next(iter);
+}
+
 void *listiter_remove(ListIterator *iter) {
     ListNode *curr = iter->current;
 
@@ -204,6 +211,10 @@ void *listiter_remove(ListIterator *iter) {
         return _node_remove(curr);
     }
     return NULL;
+}
+
+bool listiter_equals(const ListIterator *i1, const ListIterator *i2) {
+    return i1->current == i2->current;
 }
 
 void listiter_destroy(ListIterator *iter) {
