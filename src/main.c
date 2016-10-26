@@ -127,6 +127,7 @@ int mainHeap(int argc, char *argv[]) {
     size_t bufSize = 0;
     char *buf = NULL;
     int cmd, val;
+    int *elm;
     Heap *h = heap_new(&intref_compare);
 
     do {
@@ -144,16 +145,24 @@ int mainHeap(int argc, char *argv[]) {
                 break;
 
             case CMD_HEAP_ADD:
-                
+                elm = int_new(atoi(buf+1));
+                heap_push(h, elm);
                 break;
 
             case CMD_HEAP_REM:
+                elm = heap_pop(h);
+                if (elm != NULL) {
+                    printf("%d\n", *elm);
+                    free(elm);
+                }
                 break;
 
             case CMD_HEAP_SZE:
+                printf("%zu\n", heap_getSize(h));
                 break;
 
             case CMD_HEAP_DSP:
+                printf("Not implemented yet\n");
                 break;
         }
     } while (cmd != CMD_END);
