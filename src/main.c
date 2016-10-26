@@ -3,7 +3,9 @@
 #include <string.h>
 
 #include "misc/utils.h"
+#include "misc/primitive.h"
 #include "struct/list.h"
+#include "struct/heap.h"
 
 #define SEL_STR_LIST "list"
 #define SEL_STR_HEAP "heap"
@@ -19,6 +21,12 @@
 #define CMD_LIST_REM 'r'
 #define CMD_LIST_LEN 'l'
 #define CMD_LIST_DSP 'P'
+
+#define CMD_HEAP_HLP 'h'
+#define CMD_HEAP_ADD 'a'
+#define CMD_HEAP_REM 'r'
+#define CMD_HEAP_SZE 's'
+#define CMD_HEAP_DSP 'P'
 
 
 #define CMD_END 'q'
@@ -116,6 +124,14 @@ int mainList(int argc, char *argv[]) {
     return 0;
 }
 
+int mainHeap(int argc, char *argv[]) {
+    Heap *h = heap_new(&intref_compare);
+
+    heap_destroy(h);
+
+    return 0;
+}
+
 
 
 int main(int argc, char *argv[]) {
@@ -137,6 +153,7 @@ int main(int argc, char *argv[]) {
     if (strcmp(selStr, SEL_STR_LIST) == 0) {
         return mainList(argc, argv);
     } else if (strcmp(selStr, SEL_STR_HEAP) == 0) {
+        return mainHeap(argc, argv);
     } else if (strcmp(selStr, SEL_STR_QUEUE) == 0) {
     } else if (strcmp(selStr, SEL_STR_GRAPH) == 0) {
     }
