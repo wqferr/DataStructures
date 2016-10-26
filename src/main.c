@@ -60,8 +60,7 @@ int mainList(int argc, char *argv[]) {
                 break;
 
             case CMD_LIST_ADD:
-                elm = malloc(sizeof(*elm));
-                *elm = atoi(buf+2);
+                elm = int_new(atoi(buf+1));
                 listiter_add(iter, elm);
                 break;
 
@@ -145,6 +144,7 @@ int mainHeap(int argc, char *argv[]) {
                 break;
 
             case CMD_HEAP_ADD:
+                
                 break;
 
             case CMD_HEAP_REM:
