@@ -125,8 +125,40 @@ int mainList(int argc, char *argv[]) {
 }
 
 int mainHeap(int argc, char *argv[]) {
+    size_t bufSize = 0;
+    char *buf = NULL;
+    int cmd, val;
     Heap *h = heap_new(&intref_compare);
 
+    do {
+        getline(&buf, &bufSize, stdin);
+        cmd = buf[0];
+
+        switch (cmd) {
+            case CMD_HEAP_HLP:
+                printf("%c: Display help text\n", CMD_HEAP_HLP);
+                printf("%c %%d: Push element\n", CMD_HEAP_ADD);
+                printf("%c: Pop top\n", CMD_HEAP_REM);
+                printf("%c: Heap size\n", CMD_HEAP_SZE);
+                printf("%c: Display heap\n", CMD_HEAP_DSP);
+                printf("\n");
+                break;
+
+            case CMD_HEAP_ADD:
+                break;
+
+            case CMD_HEAP_REM:
+                break;
+
+            case CMD_HEAP_SZE:
+                break;
+
+            case CMD_HEAP_DSP:
+                break;
+        }
+    } while (cmd != CMD_END);
+
+    free(buf);
     heap_destroy(h);
 
     return 0;
