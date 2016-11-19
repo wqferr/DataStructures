@@ -19,6 +19,10 @@ void *heap_peek(const Heap *);
 void heap_update(Heap *, void *, void (*) (void **, void *), void *);
 void heap_updateIf(Heap *, bool (*) (const void *, void *), void *, void (*) (void **, void *), void *);
 
+void heap_preOrder(Heap *, void (*) (const void *, void *), void *);
+void heap_inOrder(Heap *, void (*) (const void *, void *), void *);
+void heap_postOrder(Heap *, void (*) (const void *, void *), void *);
+
 bool heap_isEmpty(const Heap *);
 size_t heap_getSize(const Heap *);
 

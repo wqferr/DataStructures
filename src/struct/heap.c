@@ -198,6 +198,42 @@ void heap_updateIf(Heap *h, bool (*check) (const void *, void *), void *arg1, vo
     _heap_updateIf(h->root, check, arg1, process, arg2, h->cmp);
 }
 
+void _heap_preOrder(HeapNode *n, void (*proc) (const void *, void *), void *arg) {
+    if (n != NULL) {
+        proc(n->value, arg);
+        _heap_preOrder(n->lchild, proc, arg);
+        _heap_preOrder(n->rchild, proc, arg);
+    }
+}
+
+void heap_preOrder(Heap *h, void (*proc) (const void *, void *), void *arg) {
+    _heap_preOrder(h->root, proc, arg);
+}
+
+void _heap_inOrder(HeapNode *n, void (*proc) (const void *, void *), void *arg) {
+    if (n != NULL) {
+        _heap_inOrder(n->lchild, proc, arg);
+        proc(n->value, arg);
+        _heap_inOrder(n->rchild, proc, arg);
+    }
+}
+
+void heap_inOrder(Heap *h, void (*proc) (const void *, void *), void *arg) {
+    _heap_inOrder(h->root, proc, arg);
+}
+
+void _heap_postOrder(HeapNode *n, void (*proc) (const void *, void *), void *arg) {
+    if (n != NULL) {
+        _heap_postOrder(n->lchild, proc, arg);
+        _heap_postOrder(n->rchild, proc, arg);
+        proc(n->value, arg);
+    }
+}
+
+void heap_postOrder(Heap *h, void (*proc) (const void *, void *), void *arg) {
+    _heap_postOrder(h->root, proc, arg);
+}
+
 bool heap_isEmpty(const Heap *h) {
     return h->size == 0;
 }
