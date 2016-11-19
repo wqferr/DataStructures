@@ -123,8 +123,16 @@ int mainList(int argc, char *argv[]) {
     return 0;
 }
 
+void printHeapElm(const void *elm, void *arg) {
+    size_t nPrinted;
+    nPrinted = ++deref(arg, size_t);
+    if (!(nPrinted & (nPrinted-1))) // power of 2
+        putc('\n', stdout);
+    printf("%d ", deref(elm, const int));
+}
+
 int mainHeap(int argc, char *argv[]) {
-    size_t bufSize = 0;
+    size_t bufSize = 0, n;
     char *buf = NULL;
     int cmd, val;
     int *elm;
@@ -162,7 +170,9 @@ int mainHeap(int argc, char *argv[]) {
                 break;
 
             case CMD_HEAP_DSP:
-                printf("Not implemented yet\n");
+                n = 0;
+                heap_preOrder(h, &printHeapElm, &n);
+                printf("\n");
                 break;
         }
     } while (cmd != CMD_END);
@@ -172,8 +182,6 @@ int mainHeap(int argc, char *argv[]) {
 
     return 0;
 }
-
-
 
 int main(int argc, char *argv[]) {
     char *selStr = NULL, *aux;
