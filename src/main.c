@@ -40,7 +40,7 @@ int mainList(int argc, char *argv[]) {
     char cmd;
     int *elm, i;
     List *list = list_new();
-    ListIterator *iter = list_iterator(list), *aux;
+    ListIter *iter = list_iterator(list), *aux;
 
     do {
         getline(&buf, &bufSize, stdin);

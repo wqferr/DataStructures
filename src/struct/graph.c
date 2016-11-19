@@ -16,8 +16,8 @@ struct Edge {
 
     void *value;
     void *algData;
-    ListIterator *adjacency1;
-    ListIterator *adjacency2;
+    ListIter *adjacency1;
+    ListIter *adjacency2;
 };
 
 struct Graph {
@@ -40,7 +40,7 @@ Graph *graph_new(bool directed) {
 }
 
 void graph_destroy(Graph *g) {
-    ListIterator *iter = list_iterator(g->vertices);
+    ListIter *iter = list_iterator(g->vertices);
     Vertex *curr;
 
     (void) listiter_next(iter);
@@ -58,7 +58,7 @@ void graph_destroy(Graph *g) {
 
 List *graph_vertices(const Graph *g) {
     List *vertices = list_new();
-    ListIterator *iter = list_iterator(g->vertices);
+    ListIter *iter = list_iterator(g->vertices);
 
     while (listiter_hasNext(iter))
         list_append(vertices, listiter_next(iter));
@@ -73,7 +73,7 @@ size_t graph_nVertices(const Graph *g) {
 
 List *graph_edges(const Graph *g) {
     List *edges = list_new();
-    ListIterator *iter = list_iterator(g->edges);
+    ListIter *iter = list_iterator(g->edges);
 
     while (listiter_hasNext(iter))
         list_append(edges, listiter_next(iter));
@@ -87,7 +87,7 @@ size_t graph_nEdges(const Graph *g) {
 }
 
 void graph_forEachVertex(Graph *g, VertexProcessor proc, void *arg) {
-    ListIterator *iter = list_iterator(g->vertices);
+    ListIter *iter = list_iterator(g->vertices);
 
     while (listiter_hasNext(iter))
         proc(g, (Vertex *) listiter_next(iter), arg);
@@ -96,7 +96,7 @@ void graph_forEachVertex(Graph *g, VertexProcessor proc, void *arg) {
 }
 
 void graph_forEachEdge(Graph *g, EdgeProcessor proc, void *arg) {
-    ListIterator *iter = list_iterator(g->edges);
+    ListIter *iter = list_iterator(g->edges);
 
     while (listiter_hasNext(iter))
         proc(g, (Edge *) listiter_next(iter), arg);
@@ -127,7 +127,7 @@ size_t vertex_getDegree(const Graph *g, const Vertex *v) {
 
 size_t vertex_getInDegree(const Graph *g, const Vertex *v) {
     size_t deg = 0;
-    ListIterator *iter = list_iterator(v->adjacency);
+    ListIter *iter = list_iterator(v->adjacency);
     Edge *e;
     (void) g;
 
@@ -143,7 +143,7 @@ size_t vertex_getInDegree(const Graph *g, const Vertex *v) {
 
 size_t vertex_getOutDegree(const Graph *g, const Vertex *v) {
     size_t deg = 0;
-    ListIterator *iter = list_iterator(v->adjacency);
+    ListIter *iter = list_iterator(v->adjacency);
     Edge *e;
     (void) g;
 
@@ -182,7 +182,7 @@ void *vertex_setAlgData(Vertex *v, void *value) {
 }
 
 bool graph_areAdjacent(const Graph *g, const Vertex *v, const Vertex *w) {
-    ListIterator *iter;
+    ListIter *iter;
     const Vertex *this, *other;
     Edge *e;
     bool adj = false;
@@ -210,7 +210,7 @@ bool graph_areAdjacent(const Graph *g, const Vertex *v, const Vertex *w) {
 
 List *vertex_incidentEdges(const Graph *g, const Vertex *v) {
     List *edges = list_new();
-    ListIterator *iter = list_iterator(v->adjacency);
+    ListIter *iter = list_iterator(v->adjacency);
     (void) g;
 
     while (listiter_hasNext(iter))
@@ -222,7 +222,7 @@ List *vertex_incidentEdges(const Graph *g, const Vertex *v) {
 
 List *vertex_inEdges(const Graph *g, const Vertex *v) {
     List *edges;
-    ListIterator *iter;
+    ListIter *iter;
     Edge *e;
 
     if (!g->directed)
@@ -243,7 +243,7 @@ List *vertex_inEdges(const Graph *g, const Vertex *v) {
 
 List *vertex_outEdges(const Graph *g, const Vertex *v) {
     List *edges;
-    ListIterator *iter;
+    ListIter *iter;
     Edge *e;
 
     if (!g->directed)
@@ -263,7 +263,7 @@ List *vertex_outEdges(const Graph *g, const Vertex *v) {
 }
 
 void *graph_removeVertex(Graph *g, Vertex *v) {
-    ListIterator *edges = list_iterator(v->adjacency);
+    ListIter *edges = list_iterator(v->adjacency);
     Edge *e;
     void *value = v->value;
     (void) listiter_next(edges);

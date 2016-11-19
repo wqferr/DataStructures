@@ -6,7 +6,7 @@
 
 struct Queue {
     List *elements;
-    ListIterator *first;
+    ListIter *first;
 };
 
 Queue *queue_new(void) {
@@ -25,7 +25,7 @@ void queue_add(Queue *q, void *e) {
 }
 
 void *queue_remove(Queue *q) {
-    ListIterator *iter = list_iterator(q->elements);
+    ListIter *iter = list_iterator(q->elements);
     void *val = listiter_next(iter);
     listiter_remove(iter);
     listiter_destroy(iter);
@@ -33,7 +33,7 @@ void *queue_remove(Queue *q) {
 }
 
 void *queue_peek(const Queue *q) {
-    ListIterator *iter = list_iterator(q->elements);
+    ListIter *iter = list_iterator(q->elements);
     void *val = listiter_next(iter);
     listiter_destroy(iter);
     return val;

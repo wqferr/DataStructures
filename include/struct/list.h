@@ -9,7 +9,7 @@
 #include "misc/utils.h"
 
 typedef struct List List;
-typedef struct ListIterator ListIterator;
+typedef struct ListIter ListIter;
 typedef struct ListCIter ListCIter;
 
 List *list_new(void);
@@ -26,22 +26,22 @@ void *list_removeCmp(List *, void *, int (*) (const void *, const void *));
 
 size_t list_length(const List *);
 
-ListIterator *list_iterator(List *);
+ListIter *list_iterator(List *);
 ListCIter *list_citer(const List *);
 
-ListIterator *listiter_copy(const ListIterator *);
+ListIter *listiter_copy(const ListIter *);
 ListCIter *listciter_copy(const ListCIter *);
 
-bool listiter_hasPrev(const ListIterator *);
-bool listiter_hasCurr(const ListIterator *);
-bool listiter_hasNext(const ListIterator *);
-void *listiter_prev(ListIterator *);
-void *listiter_curr(const ListIterator *);
-void *listiter_next(ListIterator *);
-void listiter_add(ListIterator *, void *);
-void *listiter_remove(ListIterator *);
-bool listiter_equals(const ListIterator *, const ListIterator *);
-void listiter_destroy(ListIterator *);
+bool listiter_hasPrev(const ListIter *);
+bool listiter_hasCurr(const ListIter *);
+bool listiter_hasNext(const ListIter *);
+void *listiter_prev(ListIter *);
+void *listiter_curr(const ListIter *);
+void *listiter_next(ListIter *);
+void listiter_add(ListIter *, void *);
+void *listiter_remove(ListIter *);
+bool listiter_equals(const ListIter *, const ListIter *);
+void listiter_destroy(ListIter *);
 
 bool listciter_hasPrev(const ListCIter *);
 bool listciter_hasCurr(const ListCIter *);

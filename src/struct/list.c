@@ -15,7 +15,7 @@ struct List {
     size_t length;
 };
 
-struct ListIterator {
+struct ListIter {
     List *parent;
     ListNode *current;
 };
@@ -84,7 +84,7 @@ void *list_getLast(const List *l) {
 
 void *list_removeFirst(List *l) {
     void *val;
-    ListIterator *iter = list_iterator(l);
+    ListIter *iter = list_iterator(l);
     (void) listiter_next(iter);
     val = listiter_remove(iter);
     listiter_destroy(iter);
@@ -93,7 +93,7 @@ void *list_removeFirst(List *l) {
 
 void *list_removeLast(List *l) {
     void *val;
-    ListIterator *iter = list_iterator(l);
+    ListIter *iter = list_iterator(l);
     (void) listiter_prev(iter);
     val = listiter_remove(iter);
     listiter_destroy(iter);
@@ -156,8 +156,8 @@ size_t list_length(const List *l) {
     return l->length;
 }
 
-ListIterator *list_iterator(List *l) {
-    ListIterator *iter = (ListIterator *) malloc(sizeof(ListIterator));
+ListIter *list_iterator(List *l) {
+    ListIter *iter = (ListIter *) malloc(sizeof(ListIter));
 
     iter->parent = l;
     iter->current = l->head;
@@ -165,8 +165,8 @@ ListIterator *list_iterator(List *l) {
     return iter;
 }
 
-ListIterator *listiter_copy(const ListIterator *original) {
-    ListIterator *iter = (ListIterator *) malloc(sizeof(ListIterator));
+ListIter *listiter_copy(const ListIter *original) {
+    ListIter *iter = (ListIter *) malloc(sizeof(ListIter));
 
     iter->parent = original->parent;
     iter->current = original->current;
@@ -174,40 +174,40 @@ ListIterator *listiter_copy(const ListIterator *original) {
     return iter;
 }
 
-bool listiter_hasPrev(const ListIterator *iter) {
+bool listiter_hasPrev(const ListIter *iter) {
     return !headOf(iter->current->prev, iter->parent);
 }
 
-bool listiter_hasCurr(const ListIterator *iter) {
+bool listiter_hasCurr(const ListIter *iter) {
     return !headOf(iter->current, iter->parent);
 }
 
-bool listiter_hasNext(const ListIterator *iter) {
+bool listiter_hasNext(const ListIter *iter) {
     return !headOf(iter->current->next, iter->parent);
 }
 
-void *listiter_prev(ListIterator *iter) {
+void *listiter_prev(ListIter *iter) {
     iter->current = iter->current->prev;
     return iter->current->value;
 }
 
-void *listiter_curr(const ListIterator *iter) {
+void *listiter_curr(const ListIter *iter) {
     return iter->current->value;
 }
 
-void *listiter_next(ListIterator *iter) {
+void *listiter_next(ListIter *iter) {
     iter->current = iter->current->next;
     return iter->current->value;
 }
 
-void listiter_add(ListIterator *iter, void *val) {
+void listiter_add(ListIter *iter, void *val) {
     ListNode *curr = iter->current;
     listnode_new(curr, val);
     iter->parent->length++;
     listiter_next(iter);
 }
 
-void *listiter_remove(ListIterator *iter) {
+void *listiter_remove(ListIter *iter) {
     ListNode *curr = iter->current;
 
     if (listiter_hasCurr(iter)) {
@@ -218,11 +218,11 @@ void *listiter_remove(ListIterator *iter) {
     return NULL;
 }
 
-bool listiter_equals(const ListIterator *i1, const ListIterator *i2) {
+bool listiter_equals(const ListIter *i1, const ListIter *i2) {
     return i1->current == i2->current;
 }
 
-void listiter_destroy(ListIterator *iter) {
+void listiter_destroy(ListIter *iter) {
     free(iter);
 }
 
