@@ -6,6 +6,7 @@
 #include "misc/primitive.h"
 #include "struct/list.h"
 #include "struct/heap.h"
+#include "struct/queue.h"
 
 #define SEL_STR_LIST "list"
 #define SEL_STR_HEAP "heap"
@@ -13,7 +14,6 @@
 #define SEL_STR_GRAPH "graph"
 
 
-#define CMD_LIST_HLP 'h'
 #define CMD_LIST_ADD 'a'
 #define CMD_LIST_NXT 'n'
 #define CMD_LIST_CUR 'c'
@@ -22,13 +22,17 @@
 #define CMD_LIST_LEN 'l'
 #define CMD_LIST_DSP 'P'
 
-#define CMD_HEAP_HLP 'h'
 #define CMD_HEAP_ADD 'a'
 #define CMD_HEAP_REM 'r'
 #define CMD_HEAP_SZE 's'
 #define CMD_HEAP_DSP 'P'
 
+#define CMD_QUEUE_ADD 'a'
+#define CMD_QUEUE_REM 'r'
+#define CMD_QUEUE_LEN 'l'
+#define CMD_QUEUE_DSP 'P'
 
+#define CMD_HLP 'h'
 #define CMD_END 'q'
 
 #define MSG_INVALID_STR "Invalid structure identifier"
@@ -47,8 +51,8 @@ int mainList(int argc, char *argv[]) {
         cmd = buf[0];
         
         switch (cmd) {
-            case CMD_LIST_HLP:
-                printf("%c: Display help text\n", CMD_LIST_HLP);
+            case CMD_HLP:
+                printf("%c: Display help text\n", CMD_HLP);
                 printf("%c %%d: Add element at iterator\n", CMD_LIST_ADD);
                 printf("%c: Iterator forward\n", CMD_LIST_NXT);
                 printf("%c: Iterator current\n", CMD_LIST_CUR);
@@ -144,8 +148,8 @@ int mainHeap(int argc, char *argv[]) {
         cmd = buf[0];
 
         switch (cmd) {
-            case CMD_HEAP_HLP:
-                printf("%c: Display help text\n", CMD_HEAP_HLP);
+            case CMD_HLP:
+                printf("%c: Display help text\n", CMD_HLP);
                 printf("%c %%d: Push element\n", CMD_HEAP_ADD);
                 printf("%c: Pop element\n", CMD_HEAP_REM);
                 printf("%c: Heap size\n", CMD_HEAP_SZE);
@@ -185,6 +189,51 @@ int mainHeap(int argc, char *argv[]) {
     return 0;
 }
 
+int mainQueue(int argc, char *argv[]) {
+    size_t bufSize = 0, n;
+    char *buf = NULL;
+    int cmd, val;
+    int *elm;
+    Queue *q = queue_new();
+
+    do {
+        getline(&buf, &bufSize, stdin);
+        cmd = buf[0];
+
+        switch (cmd) {
+            case CMD_HLP:
+                printf("%c: Display help text\n", CMD_HLP);
+                printf("%c %%d: Add element\n", CMD_QUEUE_ADD);
+                printf("%c: Remove element\n", CMD_QUEUE_REM);
+                printf("%c: Queue size\n", CMD_QUEUE_LEN);
+                printf("%c: Display Queue\n", CMD_QUEUE_DSP);
+                printf("%c: Quit\n", CMD_END);
+                printf("\n");
+                break;
+
+            case CMD_QUEUE_ADD:
+                // TODO
+                break;
+
+            case CMD_QUEUE_REM:
+                // TODO
+                break;
+
+            case CMD_QUEUE_LEN:
+                // TODO
+                break;
+
+            case CMD_QUEUE_DSP:
+                break;
+        }
+    } while (cmd != CMD_END);
+
+    free(buf);
+    queue_destroy(q);
+
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
     char *selStr = NULL, *aux;
     size_t bufSize = 0;
@@ -206,6 +255,7 @@ int main(int argc, char *argv[]) {
     } else if (strcmp(selStr, SEL_STR_HEAP) == 0) {
         return mainHeap(argc, argv);
     } else if (strcmp(selStr, SEL_STR_QUEUE) == 0) {
+        return mainQueue(argc, argv);
     } else if (strcmp(selStr, SEL_STR_GRAPH) == 0) {
     }
 
