@@ -56,6 +56,7 @@ int mainList(int argc, char *argv[]) {
                 printf("%c: Iterator remove current\n", CMD_LIST_REM);
                 printf("%c: List length\n", CMD_LIST_LEN);
                 printf("%c: Display list\n", CMD_LIST_DSP);
+                printf("%c: Quit\n", CMD_END);
                 printf("\n");
                 break;
 
@@ -149,6 +150,7 @@ int mainHeap(int argc, char *argv[]) {
                 printf("%c: Pop element\n", CMD_HEAP_REM);
                 printf("%c: Heap size\n", CMD_HEAP_SZE);
                 printf("%c: Display heap\n", CMD_HEAP_DSP);
+                printf("%c: Quit\n", CMD_END);
                 printf("\n");
                 break;
 
