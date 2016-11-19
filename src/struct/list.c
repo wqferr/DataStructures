@@ -20,6 +20,11 @@ struct ListIterator {
     ListNode *current;
 };
 
+struct ListCIter {
+    const List *parent;
+    const ListNode *current;
+};
+
 ListNode *listnode_new(ListNode *prev, void *value) {
     ListNode *n = (ListNode *) malloc(sizeof(*n));
 
@@ -219,4 +224,38 @@ bool listiter_equals(const ListIterator *i1, const ListIterator *i2) {
 
 void listiter_destroy(ListIterator *iter) {
     free(iter);
+}
+
+bool listciter_hasPrev(const ListCIter *citer) {
+    return !headOf(citer->current->prev, citer->parent);
+}
+
+bool listciter_hasCurr(const ListCIter *citer) {
+    return !headOf(citer->current, citer->parent);
+}
+
+bool listciter_hasNext(const ListCIter *citer) {
+    return !headOf(citer->current->next, citer->parent);
+}
+
+void *listciter_prev(ListCIter *citer) {
+    citer->current = citer->current->prev;
+    return citer->current->value;
+}
+
+void *listciter_curr(const ListCIter *citer) {
+    return citer->current->value;
+}
+
+void *listciter_next(ListCIter *citer) {
+    citer->current = citer->current->next;
+    return citer->current->value;
+}
+
+bool listciter_equals(const ListCIter *ci1, const ListCIter *ci2) {
+    return ci1->current == ci2->current;
+}
+
+void listciter_destroy(ListCIter *citer) {
+    free(citer);
 }
